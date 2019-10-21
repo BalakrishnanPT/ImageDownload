@@ -1,9 +1,9 @@
 package in.balakrishnan.imagedownload.ImageDownloader;
 
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.work.Worker;
 
 import com.google.gson.Gson;
@@ -13,9 +13,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-import in.nfnlabs.listado.Utils.ImageHelper.ImageLocalCache;
-import in.nfnlabs.listado.Utils.Storage.LocalData;
-import in.nfnlabs.listado.Utils.db.AppDataBase;
+import in.balakrishnan.imagedownload.ImageHelper.ImageLocalCache;
+import in.balakrishnan.imagedownload.Storage.LocalData;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -30,7 +29,7 @@ public class ImageDownloaderWorker extends Worker {
     public Result doWork() {
         String[] value = getInputData().getStringArray("value");
         if (value == null) return Result.FAILURE;
-        AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().setDownloadStatus(Integer.parseInt(value[1]), 1);
+//        AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().setDownloadStatus(Integer.parseInt(value[1]), 1);
         LocalData localData = new LocalData(getApplicationContext());
         List<String> g = toList(localData.getStringPreferenceValue(value[0]));
         final CountDownLatch startSignal = new CountDownLatch(g.size());
@@ -63,14 +62,14 @@ public class ImageDownloaderWorker extends Worker {
         }
         try {
             startSignal.await();
-            AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().setDownloadStatus(Integer.parseInt(value[1]), 2);
-            Log.d(TAG, "doWork: " + AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().getDownloadStatus(Integer.parseInt(value[1])));
+//            AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().setDownloadStatus(Integer.parseInt(value[1]), 2);
+//            Log.d(TAG, "doWork: " + AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().getDownloadStatus(Integer.parseInt(value[1])));
             return Result.SUCCESS;
         } catch (InterruptedException e) {
             Log.d("InterruptedException", "doWork: ");
             e.printStackTrace();
-            AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().setDownloadStatus(Integer.parseInt(value[1]), 1);
-            Log.d(TAG, "doWork: " + AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().getDownloadStatus(Integer.parseInt(value[1])));
+//            AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().setDownloadStatus(Integer.parseInt(value[1]), 1);
+//            Log.d(TAG, "doWork: " + AppDataBase.getAppDatabase(getApplicationContext()).CollectionDao().getDownloadStatus(Integer.parseInt(value[1])));
             return Result.RETRY;
         }
     }

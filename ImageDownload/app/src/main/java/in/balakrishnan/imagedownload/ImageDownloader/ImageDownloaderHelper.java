@@ -28,6 +28,7 @@ import in.balakrishnan.imagedownload.Storage.LocalData;
 public class ImageDownloaderHelper {
     public static WorkManager mWorkManager = WorkManager.getInstance();
     public static MessagerHandler.IncomingMessageHandler mHandler;
+    // Get Application class context from you app's Application class
     public static LocalData dbLocalData = new LocalData(ListadoApplication.getAppContext());
 
 
